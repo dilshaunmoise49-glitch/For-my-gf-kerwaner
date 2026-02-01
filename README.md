@@ -1,8 +1,5 @@
 # For my Girlfriend Kerwaner iha
 
-
-## Why This Pulls Baddies
-
 - **Runaway "No" Button**: Because who likes rejection? Watch the "No" button run for its life on hover or click
 - **Hilarious Responses**: The app fights for your love with escalating levels of desperation
 - **Smooth AF Animations**: For that extra wow factor
