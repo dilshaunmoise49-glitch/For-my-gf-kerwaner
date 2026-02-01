@@ -1,10 +1,8 @@
 // Wait until the page is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
-  // Import libraries (works in module mode)
   import confetti from 'https://cdn.skypack.dev/canvas-confetti';
   import anime from 'https://cdn.skypack.dev/animejs';
 
-  // Buttons and elements
   const yesButton = document.getElementById('yesButton');
   const noButton = document.getElementById('noButton');
   const imageDisplay = document.getElementById('imageDisplay');
@@ -26,23 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
     './images/image7.gif'
   ];
 
-  // Sound helper
   function playSound(soundPath) {
     const audio = new Audio(soundPath);
     audio.play();
   }
 
-  // Random number helper
   const getRandomNumber = (num) => Math.floor(Math.random() * (num + 1));
 
-  // Runaway button logic
   const runawayButtonLogic = (button) => {
     const moveButton = function () {
-      // Trigger if button text contains "Say yes"
       if (this.textContent.includes("Say yes")) {
         const top = getRandomNumber(window.innerHeight - this.offsetHeight);
         const left = getRandomNumber(window.innerWidth - this.offsetWidth);
-
         animateMove(this, "top", top).play();
         animateMove(this, "left", left).play();
       }
@@ -52,22 +45,15 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const animateMove = (element, prop, pixels) =>
-    anime({
-      targets: element,
-      [prop]: `${pixels}px`,
-      easing: "easeOutCirc",
-      duration: 500,
-    });
+    anime({ targets: element, [prop]: `${pixels}px`, easing: "easeOutCirc", duration: 500 });
 
-  // NO button behavior
+  // NO button
   noButton.addEventListener("click", () => {
     playSound('./sounds/click.mp3');
-
     if (noClickCount < 4) {
       noClickCount++;
-      imageDisplay.src = imagePaths[noClickCount] || "./images/image1.gif";
+      imageDisplay.src = imagePaths[noClickCount] || imagePaths[0];
 
-      // Increase YES button size
       buttonHeight += 35;
       buttonWidth += 35;
       fontSize += 25;
@@ -75,26 +61,15 @@ document.addEventListener("DOMContentLoaded", () => {
       yesButton.style.width = `${buttonWidth}px`;
       yesButton.style.fontSize = `${fontSize}px`;
 
-      // Update NO button text
-      const messages = [
-        "No",
-        "Are you sure?",
-        "Babyy please?",
-        "Don't do this to me :(",
-        "Say yes or else...iya"
-      ];
-
+      const messages = ["No", "Are you sure?", "Babyy please?", "Don't do this to me :(", "Say yes or else...iya"];
       if (noClickCount === 4) {
-        // Create runaway button
         const newButton = document.createElement("button");
         newButton.id = "runawayButton";
         newButton.textContent = "Say yes or else...";
         newButton.style.position = "absolute";
-
-        const yesButtonRect = yesButton.getBoundingClientRect();
-        newButton.style.top = `${yesButtonRect.bottom + 10}px`;
-        newButton.style.left = `${yesButtonRect.left + yesButtonRect.width / 2 + 24}px`;
-
+        const yesRect = yesButton.getBoundingClientRect();
+        newButton.style.top = `${yesRect.bottom + 10}px`;
+        newButton.style.left = `${yesRect.left + yesRect.width / 2 + 24}px`;
         newButton.style.backgroundColor = "#ff5a5f";
         newButton.style.color = "white";
         newButton.style.padding = "12px 20px";
@@ -111,10 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // YES button behavior
+  // YES button
   yesButton.addEventListener("click", () => {
     playSound('./sounds/click.mp3');
-
     imageDisplay.remove();
     responseButtons.style.display = "none";
 
@@ -125,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     valentineQuestion.style.textAlign = "center";
 
-    // Bounce image
     const bounceImage = document.createElement("img");
     bounceImage.src = "./images/baddie.jpg";
     bounceImage.alt = "Baddie";
@@ -137,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     startBouncing(bounceImage);
 
-    // Confetti
     confetti({
       particleCount: 150,
       spread: 90,
@@ -146,7 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Bouncing animation
   function startBouncing(element) {
     let x = Math.random() * (window.innerWidth - element.offsetWidth);
     let y = Math.random() * (window.innerHeight - element.offsetHeight);
@@ -155,34 +126,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let rotation = 0;
 
     function move() {
-      const viewportWidth = window.innerWidth - element.offsetWidth;
-      const viewportHeight = window.innerHeight - element.offsetHeight;
+      const vw = window.innerWidth - element.offsetWidth;
+      const vh = window.innerHeight - element.offsetHeight;
 
-      if (x <= 0 || x >= viewportWidth) {
-        dx *= -1;
-        rotation += 15;
-        anime({
-          targets: element,
-          translateX: dx > 0 ? x + 20 : x - 20,
-          duration: 300,
-          easing: "easeOutElastic(1, .6)",
-        });
-      }
+      if (x <= 0 || x >= vw) { dx *= -1; rotation += 15; }
+      if (y <= 0 || y >= vh) { dy *= -1; rotation += 15; }
 
-      if (y <= 0 || y >= viewportHeight) {
-        dy *= -1;
-        rotation += 15;
-        anime({
-          targets: element,
-          translateY: dy > 0 ? y + 20 : y - 20,
-          duration: 300,
-          easing: "easeOutElastic(1, .6)",
-        });
-      }
-
-      x += dx;
-      y += dy;
-
+      x += dx; y += dy;
       element.style.left = `${x}px`;
       element.style.top = `${y}px`;
       element.style.transform = `rotate(${rotation}deg)`;
@@ -193,4 +143,3 @@ document.addEventListener("DOMContentLoaded", () => {
     move();
   }
 });
-
