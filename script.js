@@ -1,7 +1,9 @@
+// Import libraries at the top level
+import confetti from 'https://cdn.skypack.dev/canvas-confetti';
+import anime from 'https://cdn.skypack.dev/animejs';
+
 // Wait until the page is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
-  import confetti from 'https://cdn.skypack.dev/canvas-confetti';
-  import anime from 'https://cdn.skypack.dev/animejs';
 
   const yesButton = document.getElementById('yesButton');
   const noButton = document.getElementById('noButton');
@@ -142,4 +144,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     move();
   }
+
 });
